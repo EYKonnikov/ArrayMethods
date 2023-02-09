@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="getAll"></div>
+    <div class="getItem"></div>
+    <div class="getChildren"></div>
+    <div class="getAllChildren"></div>
+    <div class="getAllParents"></div>
+
+
+    <script src="tree.js"></script>
+    <script>
+        const items = [
+            { id: 1, parent: 'root' },
+            { id: 2, parent: 1, type: 'test' },
+            { id: 3, parent: 1, type: 'test' },
+
+            { id: 4, parent: 2, type: 'test' },
+            { id: 5, parent: 2, type: 'test' },
+            { id: 6, parent: 2, type: 'test' },
+
+            { id: 7, parent: 4, type: null },
+            { id: 8, parent: 4, type: null },
+        ];
+
+        const ts = new TreeStore(items);
+
+        document.querySelector('.getAll').innerHTML = `<div style='border-bottom: 1px solid #a1a1a1'><h3>getAll()</h3><h4>Должен возвращать изначальный массив элементов:</h4><p>${JSON.stringify(ts.getAll(items))}</p></div>`
+        document.querySelector('.getItem').innerHTML = `<div style='border-bottom: 1px solid #a1a1a1'><h3>getItem(id)</h3><h4>Принимает id элемента и возвращает сам объект элемента:</h4><p>getItem(7): ${JSON.stringify(ts.getItem(items, 7))}</p></div>`
+        document.querySelector('.getChildren').innerHTML = `<div style='border-bottom: 1px solid #a1a1a1'><h3>getChildren(id)</h3><h4>Принимает id элемента и возвращает массив элементов, являющихся дочерними для того элемента,</br>
+ * чей id получен в аргументе. Если у элемента нет дочерних, то должен возвращаться пустой массив;</h4><p>getChildren(4): ${JSON.stringify(ts.getChildren(items, 4))}</p><p>getChildren(5): ${JSON.stringify(ts.getChildren(items, 5))}</p><p>getChildren(2): ${JSON.stringify(ts.getChildren(items, 2))}</p></div>`
+        document.querySelector('.getAllChildren').innerHTML = `<div style='border-bottom: 1px solid #a1a1a1'><h3>getAllChildren(id)</h3><h4>Принимает id элемента и возвращает массив элементов, являющихся прямыми дочерними элементами того,</br>
+ * чей id получен в аргументе + если у них в свою очередь есть еще дочерние элементы, они все тоже будут включены в результат,</br>
+ * и так до самого глубокого уровня.</h4><p>getAllChildren(2): ${JSON.stringify(ts.getAllChildren(items, 2))}</p></div>`
+        document.querySelector('.getAllParents').innerHTML = `<div style='border-bottom: 1px solid #a1a1a1'><h3>getAllParents(id)</h3><h4>Принимает id элемента и возвращает массив из цепочки родительских элементов,<br />
+ * начиная от самого элемента, чей id был передан в аргументе и до корневого элемента,</br>
+ * т.е. должен получиться путь элемента наверх дерева через цепочку родителей к корню дерева.</br> 
+* в результате getAllParents ПОРЯДОК ЭЛЕМЕНТОВ ВАЖЕН!</h4><p>getAllParents(7): ${JSON.stringify(ts.getAllParents(items, 7))}</p></div>`
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
